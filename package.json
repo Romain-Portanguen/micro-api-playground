@@ -1,5 +1,5 @@
 {
-  "name": "testing-lib-api",
+  "name": "micro-api-playground",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,14 @@
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "node",
+    "typescript",
+    "express",
+    "sequelize",
+    "jest"
+  ],
+  "author": "Romain Portanguen",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
