@@ -4,6 +4,8 @@ import cors from 'cors';
 import bookRoutes from './routes/bookRoutes';
 import sequelize from './config/database';
 import dotenv from 'dotenv';
+import { setupSwagger } from './config/swagger';
+import { errorHandler } from './middlewares/errorHandler';
 
 dotenv.config();
 
@@ -18,7 +20,12 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+setupSwagger(app);
+console.log("Swagger setup complete");
+
 app.use('/api', bookRoutes);
+
+app.use(errorHandler);
 
 app.use((req, res, next) => {
   res.status(404).send('Not Found');
