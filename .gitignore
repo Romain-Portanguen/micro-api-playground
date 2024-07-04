@@ -8,3 +8,6 @@ yarn-error.log
 
 # TypeScript
 dist/
+
+# Logs
+error.log

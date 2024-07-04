@@ -8,7 +8,7 @@ const seedDatabase = async () => {
     console.log('Database has been reset.');
 
     const books = [];
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 250; i++) {
       books.push({
         title: faker.lorem.words(3),
         author: faker.name.findName(),
