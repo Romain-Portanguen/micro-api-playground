@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { validateRequest } from '../middlewares/validateRequest';
 import bookController from '../controllers/bookController';
 
 const router = Router();
-const { createBook, getBooks, updateBook, deleteBook } = bookController;
+const { createBook, getBooks, getBookById, updateBook, deleteBook } = bookController;
 
 router.post(
-  '/',
+  '/books',
   [
     body('title').isString().notEmpty(),
     body('author').isString().notEmpty(),
@@ -17,9 +17,37 @@ router.post(
   createBook
 );
 
-router.get('/', getBooks);
-router.put('/:id', updateBook);
-router.delete('/:id', deleteBook);
+router.get('/books', getBooks);
+
+router.get(
+  '/books/:id',
+  [
+    param('id').isInt({ min: 1 })
+  ],
+  validateRequest,
+  getBookById
+);
+
+router.put(
+  '/books/:id',
+  [
+    param('id').isInt({ min: 1 }),
+    body('title').isString().notEmpty(),
+    body('author').isString().notEmpty(),
+    body('publishedDate').isISO8601().toDate(),
+  ],
+  validateRequest,
+  updateBook
+);
+
+router.delete(
+  '/books/:id',
+  [
+    param('id').isInt({ min: 1 })
+  ],
+  validateRequest,
+  deleteBook
+);
 
 export default router;
 
@@ -64,6 +92,32 @@ export default router;
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Book'
+ */
+
+/**
+ * @swagger
+ * /api/books/{id}:
+ *   get:
+ *     summary: Get a book by ID
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The book ID
+ *     responses:
+ *       200:
+ *         description: A single book
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Book not found
+ *       400:
+ *         description: Invalid ID supplied
  */
 
 /**

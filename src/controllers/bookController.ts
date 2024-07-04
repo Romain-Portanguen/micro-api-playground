@@ -25,7 +25,12 @@ export class BookController {
 
   async getBookById(req: Request, res: Response) {
     try {
-      const book = await bookService.getBookById(parseInt(req.params.id, 10));
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: 'Invalid book ID' });
+      }
+
+      const book = await bookService.getBookById(id);
       if (book) {
         res.status(200).json(book);
       } else {
@@ -39,7 +44,12 @@ export class BookController {
 
   async updateBook(req: Request, res: Response) {
     try {
-      const book = await bookService.updateBook(parseInt(req.params.id, 10), req.body);
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: 'Invalid book ID' });
+      }
+
+      const book = await bookService.updateBook(id, req.body);
       if (book) {
         res.status(200).json(book);
       } else {
@@ -53,7 +63,12 @@ export class BookController {
 
   async deleteBook(req: Request, res: Response) {
     try {
-      const book = await bookService.deleteBook(parseInt(req.params.id, 10));
+      const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: 'Invalid book ID' });
+      }
+
+      const book = await bookService.deleteBook(id);
       if (book) {
         res.status(204).send();
       } else {
